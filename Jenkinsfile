@@ -64,7 +64,7 @@ pipeline {
 						sh "docker push ${DOCKERHUB_USERNAME}/travelguide-frontend:version1.0"
 					}
 
-                         sh "docker tag mysql ${DOCKER_HUB_USERNAME}/mysql"
+                         sh "docker tag mysql ${DOCKERHUB_USERNAME}/mysql"
                          docker.withRegistry('', 'dockerhub-credentials') {
 
 						sh "docker push ${DOCKERHUB_USERNAME}/mysql"
