@@ -6,13 +6,13 @@
   tasks:
     - name: Pull Frontend Docker Image
       docker_image:
-        name: "abhisheksharma402/spe-frontend:version1.0"
+        name: "abhisheksharma402/travelguide-frontend:version1.0"
         source: pull
       register: docker_pull_result
 
     - name: Pull Backend Docker Image
       docker_image:
-        name: "abhisheksharma402/spe-backend:version1.0"
+        name: "abhisheksharma402/travelguide-backend:version1.0"
         source: pull
       register: docker_pull_result
 
@@ -32,10 +32,10 @@
         state: started
 
     - name: Running Frontend Container
-      shell: /usr/bin/docker run --name calc -it -d abhisheksharma402/spe-frontend:version1.0
+      shell: /usr/bin/docker run --name frontend -it -d abhisheksharma402/travelguide-frontend:version1.0
 
     - name: Running Backend Container
-      shell: /usr/bin/docker run --name calc -it -d abhisheksharma402/spe-backend:version1.0
+      shell: /usr/bin/docker run --name backend -it -d abhisheksharma402/travelguide-backend:version1.0
     
     - name: Running MySQL Container
-      shell: /usr/bin/docker run --name calc -it -d abhisheksharma402/mysql
+      shell: /usr/bin/docker run --name db -it -d abhisheksharma402/mysql
