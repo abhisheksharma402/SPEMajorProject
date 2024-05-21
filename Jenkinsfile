@@ -18,6 +18,15 @@ pipeline {
 			}
           }
 
+          stage('Making Port Avaiable') {
+            steps {
+                script {
+                    // Stop all containers
+                    sh 'docker stop $(docker ps -aq)'
+                }
+            }
+        }
+
           stage('Maven Build') {
                steps {
                     dir('SPE-Project-Backend/main') {
