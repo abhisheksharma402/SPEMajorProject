@@ -93,6 +93,7 @@ pipeline {
                          ansiblePlaybook (
 
                               playbook: 'playbook.yml',
+                              extras: '-vvv',
                               inventory: 'inventory'
                          )
                     }
