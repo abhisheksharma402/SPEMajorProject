@@ -32,10 +32,10 @@
         state: started
 
     - name: Running Frontend Container
-      shell: /usr/bin/docker run --name frontend -it -d abhisheksharma402/travelguide-frontend:version1.0
+      shell: /usr/bin/docker run --name frontend -it -d -p 5173:5173 abhisheksharma402/travelguide-frontend:version1.0
 
     - name: Running Backend Container
-      shell: /usr/bin/docker run --name backend -it -d abhisheksharma402/travelguide-backend:version1.0
+      shell: /usr/bin/docker run --name backend -it -d -p 9092:9094 abhisheksharma402/travelguide-backend:version1.0
     
     - name: Running MySQL Container
-      shell: /usr/bin/docker run --name db -it -d abhisheksharma402/mysql
+      shell: /usr/bin/docker run --name db -it -d -p 3306:3306 abhisheksharma402/mysql
