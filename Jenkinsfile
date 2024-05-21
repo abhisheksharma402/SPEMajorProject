@@ -39,20 +39,39 @@ pipeline {
 			}
 		}
 
+          stage('List Docker Images') {
+            steps {
+                script {
+                    // Use Docker CLI to list images
+                    sh 'docker images'
+                }
+            }
+        }
+
           stage('Push Docker Images to Registry') {
                steps {
                     script {
+					sh "docker image tag spe-major-project-frontend ${DOCKERHUB_USERNAME}/spe-major-project-frontend:version1.0"
                          docker.withRegistry('', 'dockerhub-credentials') {
 
-						sh "docker image tag spe-major-project-frontend abhisheksharma402/spe-major-project-frontend:version1.0"
-						sh "docker push abhisheksharma402/spe-major-project-frontend:version1.0"
-
-                              sh "docker image tag spe-major-project-backend abhisheksharma402/spe-major-project-backend:version1.0"
-						sh "docker push abhisheksharma402/spe-major-project-backend:version1.0"
-
-						sh "docker push abhisheksharma402/mysql"
+						sh "docker push ${DOCKERHUB_USERNAME}/spe-major-project-frontend"
 
 					}
+                         
+                         sh "docker image tag spe-major-project-backend ${DOCKERHUB_USERNAME}/spe-major-project-backend"
+                         docker.withRegistry('', 'dockerhub-credentials') {
+                              
+						sh "docker push ${DOCKERHUB_USERNAME}/spe-major-project-backend"
+					}
+
+                         sh "docker tag mysql ${DOCKER_HUB_USERNAME}/mysql"
+                         docker.withRegistry('', 'dockerhub-credentials') {
+
+						sh "docker push ${DOCKERHUB_USERNAME}/mysql"
+
+					}
+
+
                     }
                }
           }
