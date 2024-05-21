@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         DOCKERHUB_USERNAME = "abhisheksharma402"
-        GITHUB_REPO_URL = 'https://github.com/abhisheksharma402/SPE-Major-Project.git'
+        GITHUB_REPO_URL = 'https://github.com/abhisheksharma402/SPEMajorProject'
         
      //    KUBECONFIG = credentials('kube-cred-main')
     }
@@ -13,7 +13,7 @@ pipeline {
                steps {
                
 				script{
-					git branch: 'React-server/main', url: "${GITHUB_REPO_URL}"
+					git branch: 'main', url: "${GITHUB_REPO_URL}"
 				}
 			}
           }
