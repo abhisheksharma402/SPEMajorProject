@@ -45,11 +45,11 @@ pipeline {
                     script {
                          docker.withRegistry('', 'dockerhub-credentials') {
 
-						sh "docker image tag spe-frontend abhisheksharma402/spe-frontend:version1.0"
-						sh "docker push abhisheksharma402/spe-frontend:version1.0"
+						sh "docker image tag spe-major-project-frontend abhisheksharma402/spe-major-project-frontend:version1.0"
+						sh "docker push abhisheksharma402/spe-major-project-frontend:version1.0"
 
-                              sh "docker image tag spe-backend abhisheksharma402/spe-backend:version1.0"
-						sh "docker push abhisheksharma402/spe-backend:version1.0"
+                              sh "docker image tag spe-major-project-backend abhisheksharma402/spe-major-project-backend:version1.0"
+						sh "docker push abhisheksharma402/spe-major-project-backend:version1.0"
 
 						sh "docker push abhisheksharma402/mysql"
 
