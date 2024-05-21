@@ -1,0 +1,41 @@
+---
+- name: Pull Docker Image From DockerHub
+  hosts: localhost
+  remote_user: abhisheksharma
+  become: false
+  tasks:
+    - name: Pull Frontend Docker Image
+      docker_image:
+        name: "abhisheksharma402/spe-frontend:version1.0"
+        source: pull
+      register: docker_pull_result
+
+    - name: Pull Backend Docker Image
+      docker_image:
+        name: "abhisheksharma402/spe-backend:version1.0"
+        source: pull
+      register: docker_pull_result
+
+    - name: Pull MySQL Docker Image
+      docker_image:
+        name: "abhisheksharma402/mysql"
+        source: pull
+      register: docker_pull_result
+
+    - name: Display Docker Pull Request
+      debug:
+        var: docker_pull_result
+
+    - name: Start Docker Service
+      service:
+        name: docker
+        state: started
+
+    - name: Running Frontend Container
+      shell: /usr/bin/docker run --name calc -it -d abhisheksharma402/spe-frontend:version1.0
+
+    - name: Running Backend Container
+      shell: /usr/bin/docker run --name calc -it -d abhisheksharma402/spe-backend:version1.0
+    
+    - name: Running MySQL Container
+      shell: /usr/bin/docker run --name calc -it -d abhisheksharma402/mysql
