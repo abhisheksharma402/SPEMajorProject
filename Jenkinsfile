@@ -51,7 +51,7 @@ pipeline {
           stage('Push Docker Images to Registry') {
                steps {
                     script {
-					sh "docker image tag spe-major-project-frontend ${DOCKERHUB_USERNAME}/spe-major-project-frontend:version1.0"
+					sh "docker image tag spe-major-project-frontend ${DOCKERHUB_USERNAME}/spe-major-project-frontend"
                          docker.withRegistry('', 'dockerhub-credentials') {
 
 						sh "docker push ${DOCKERHUB_USERNAME}/spe-major-project-frontend"
