@@ -1,1 +1,1 @@
-ansible_host=localhost ansible_user=abhisheksharma ansible_ssh_pass=Hope@402 ansible_become_pass=Hope@402
+ansible_host=localhost ansible_connection=local ansible_user=abhisheksharma ansible_ssh_pass=Hope@402 ansible_become_pass=Hope@402
