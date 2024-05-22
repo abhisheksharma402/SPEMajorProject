@@ -91,7 +91,7 @@ pipeline {
                          ansiblePlaybook (
 
                               playbook: 'playbook.yml',
-                              extras: '-vvv',
+                              extras: '--ask-become-pass',
                               inventory: 'inventory'
                          )
                     }
