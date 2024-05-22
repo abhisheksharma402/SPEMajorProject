@@ -42,8 +42,8 @@ pipeline {
 			steps {
 
 				script {
-                         sh 'docker compose pull'
-                         sh 'docker compose build'
+                         sh 'docker compose up'
+                         // sh 'docker compose build'
 				}
 
 			}
