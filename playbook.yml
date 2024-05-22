@@ -4,41 +4,53 @@
   remote_user: abhisheksharma
   become: false
   tasks:
-    - name: Pull Frontend Docker Image
-      docker_image:
-        name: "abhisheksharma402/travelguide-frontend:version1.0"
-        source: pull
-      register: docker_pull_result
+    # - name: Pull Frontend Docker Image
+    #   docker_image:
+    #     name: "abhisheksharma402/travelguide-frontend:version1.0"
+    #     source: pull
+    #   register: docker_pull_result
 
-    - name: Pull Backend Docker Image
-      docker_image:
-        name: "abhisheksharma402/travelguide-backend:version1.0"
-        source: pull
-      register: docker_pull_result
+    # - name: Pull Backend Docker Image
+    #   docker_image:
+    #     name: "abhisheksharma402/travelguide-backend:version1.0"
+    #     source: pull
+    #   register: docker_pull_result
 
-    - name: Pull MySQL Docker Image
-      docker_image:
-        name: "abhisheksharma402/mysql"
-        source: pull
-      register: docker_pull_result
+    # - name: Pull MySQL Docker Image
+    #   docker_image:
+    #     name: "abhisheksharma402/mysql"
+    #     source: pull
+    #   register: docker_pull_result
 
-    - name: Display Docker Pull Request
-      debug:
-        var: docker_pull_result
+    # - name: Display Docker Pull Request
+    #   debug:
+    #     var: docker_pull_result
 
     - name: Start Docker Service
       service:
         name: docker
         state: started
 
+    - name: Copy Docker Compose file
+      copy:
+        src: docker-compose.yml
+        dest: ./
     
-    - name: Running MySQL Container
-      shell: /usr/bin/docker run -d -p 3306:3306 abhisheksharma402/mysql
-      
-    - name: Running Frontend Container
-      shell: /usr/bin/docker run -d -p 5173:5173 abhisheksharma402/travelguide-frontend:version1.0
+    - name: Run Docker Compose up command
+      become: true
+      docker_compose:
+        project_src: ./
+        state: present
+        pull: yes
 
-    - name: Running Backend Container
-      shell: /usr/bin/docker run -d -p 9092:9094 abhisheksharma402/travelguide-backend:version1.0
+
+    # - name: Running MySQL Container
+    #   shell: /usr/bin/docker run -d -p 3306:3306 abhisheksharma402/mysql
+      
+    # - name: Running Frontend Container
+    #   shell: /usr/bin/docker run -d -p 5173:5173 abhisheksharma402/travelguide-frontend:version1.0
+
+    # - name: Running Backend Container
+    #   shell: /usr/bin/docker run -d -p 9092:9094 abhisheksharma402/travelguide-backend:version1.0
     
     

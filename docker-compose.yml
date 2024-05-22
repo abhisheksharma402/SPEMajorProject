@@ -21,9 +21,7 @@ services:
 
   frontend:
     container_name: spe-frontend
-    build:
-      context: ./SPE-Project-Frontend/SPE-Major-Project/SPE Major Project
-      dockerfile: Dockerfile
+    image: abhisheksharma402/travelguide-frontend:version1.0
     ports:
       - '5173:5173'
     networks:
@@ -31,9 +29,7 @@ services:
 
   backend:
     container_name: spe-backend
-    build:
-      context: ./SPE-Project-Backend/main
-      dockerfile: Dockerfile
+    image: abhisheksharma402/travelguide-backend:version1.0
     ports:
       - '9092:9094'
     environment:

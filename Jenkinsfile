@@ -42,8 +42,8 @@ pipeline {
 			steps {
 
 				script {
-                         sh 'docker compose up -d'
-                         // sh 'docker compose build'
+                         sh "docker build -t abhisheksharma402/travelguide-frontend -f SPE-Project-Frontend/SPE-Major-Project/SPE Major Project/Dockerfile"
+                         sh "docker build -t abhisheksharma402/travelguide-backend -f SPE-Project-Backend/main/Dockerfile"
 				}
 
 			}
@@ -74,12 +74,12 @@ pipeline {
 						sh "docker push ${DOCKERHUB_USERNAME}/travelguide-frontend:version1.0"
 					}
 
-                         sh "docker tag mysql ${DOCKERHUB_USERNAME}/mysql"
-                         docker.withRegistry('', 'dockerhub-credentials') {
+                         // sh "docker tag mysql ${DOCKERHUB_USERNAME}/mysql"
+                         // docker.withRegistry('', 'dockerhub-credentials') {
 
-						sh "docker push ${DOCKERHUB_USERNAME}/mysql"
+					// 	sh "docker push ${DOCKERHUB_USERNAME}/mysql"
 
-					}
+					// }
 
 
                     }
