@@ -91,7 +91,7 @@ pipeline {
                          ansiblePlaybook (
 
                               playbook: 'playbook.yml',
-                              inventory: 'inventory.txt'
+                              inventory: 'inventory.txt',
                               extras: '-K',
                          )
                     }
