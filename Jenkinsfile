@@ -92,7 +92,7 @@ pipeline {
 
                               playbook: 'playbook.yml',
                               extras: '--ask-become-pass',
-                              inventory: 'inventory'
+                              inventory: 'inventory.txt'
                          )
                     }
                }
