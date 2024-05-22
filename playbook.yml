@@ -34,9 +34,7 @@
     
     - name: Running MySQL Container
       shell: /usr/bin/docker run -d -p 3306:3306 abhisheksharma402/mysql
-      environment:
-        MYSQL_ROOT_PASSWORD: Hope@402
-
+      
     - name: Running Frontend Container
       shell: /usr/bin/docker run -d -p 5173:5173 abhisheksharma402/travelguide-frontend:version1.0
 
