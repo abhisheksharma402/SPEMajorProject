@@ -7,13 +7,13 @@ WORKDIR /app
 
 
 # Copy package.json and package-lock.json
-COPY package*.json ./
+COPY ./SPE-Project-Frontend/SPE-Major-Project/SPE Major Project/package*.json ./
 
 # Install dependencies
 RUN npm install
 
 # Copy the rest of the application code
-COPY . .
+COPY ./SPE-Project-Frontend/SPE-Major-Project/SPE Major Project ./
 
 
 EXPOSE 5173

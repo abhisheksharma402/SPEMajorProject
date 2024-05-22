@@ -40,8 +40,8 @@ pipeline {
           stage('Docker Build Using Docker Compose')
 		{
 			steps {
-                    sh "docker build -t abhisheksharma402/travelguide-frontend -f SPE-Project-Frontend/SPE-Major-Project/SPE Major Project/Dockerfile ."
-                    sh "docker build -t abhisheksharma402/travelguide-backend -f SPE-Project-Backend/main/Dockerfile ."
+                    sh "docker build -t abhisheksharma402/travelguide-frontend -f Dockerfiles/FrontendDockerfile ."
+                    sh "docker build -t abhisheksharma402/travelguide-backend -f Dockerfiles/BackendDockerfile ."
 
 			}
 		}
