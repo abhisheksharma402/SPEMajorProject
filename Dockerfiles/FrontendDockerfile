@@ -7,7 +7,7 @@ WORKDIR /app
 
 
 # Copy package.json and package-lock.json
-COPY ./SPE-Project-Frontend/SPE-Major-Project/SPE Major Project/package*.json ./
+COPY ./SPE-Project-Frontend/SPE-Major-Project/SPEMajorProject/package*.json ./
 
 # Install dependencies
 RUN npm install
