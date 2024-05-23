@@ -7,6 +7,7 @@ import com.spe.project.travelguide.main.dto.requests.AgencyAuthenticationRequest
 import com.spe.project.travelguide.main.dto.requests.AgencyRegistrationRequest;
 import com.spe.project.travelguide.main.dto.requests.UserActivationRequest;
 import com.spe.project.travelguide.main.dto.response.AgencyAuthenticationResponse;
+import com.spe.project.travelguide.main.dto.response.GetAgentsResponse;
 import com.spe.project.travelguide.main.email.EmailService;
 import com.spe.project.travelguide.main.email.EmailTemplateName;
 import jakarta.mail.MessagingException;
@@ -23,6 +24,7 @@ import java.security.SecureRandom;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Objects;
 
 @Service
