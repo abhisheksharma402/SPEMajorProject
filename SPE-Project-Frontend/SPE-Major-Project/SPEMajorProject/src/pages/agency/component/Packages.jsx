@@ -78,6 +78,19 @@ const Packages = () => {
     const [backgroundImage, setBackgroundImage] = useState('');
 
     useEffect(() => {
+        async function fetchRandomImage() {
+            try {
+                const response = await axios.get('https://source.unsplash.com/random/1080x720/?travel');
+                setBackgroundImage(response.request.responseURL);
+            } catch (error) {
+                console.error('Error fetching random image:', error);
+            }
+        }
+
+        fetchRandomImage();
+    }, []);
+
+    useEffect(() => {
         const agencyEmail = "support@xyz.com";
         async function fetchAgents() {
             try {
@@ -93,7 +106,7 @@ const Packages = () => {
     }, []);
 
     return (
-        <div className="package-main flex items-center justify-center">
+        <div className="package-main flex items-center justify-center h-screen bg-cover bg-center" style={{ backgroundImage: `url("${backgroundImage}")` }}>
             <div className="main-form p-6 bg-white bg-opacity-80 rounded-lg shadow-md p-20">
                 <h2 className="text-3xl font-bold mb-6 text-center">Create New Package</h2>
                 <form onSubmit={handleSubmit} className="grid grid-cols-1 sm:grid-cols-2 gap-6">
