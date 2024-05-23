@@ -1,0 +1,24 @@
+.package-main {
+     min-height: 100vh;
+     /* Allows the container to grow beyond the viewport height */
+     overflow-y: auto;
+}
+
+
+.main {}
+
+.package-main {}
+
+.main-form {
+     background-color: rgba(255, 255, 255, 0.1);
+     overflow-y: scroll;
+}
+
+button {
+     transition: background-color 0.3s ease;
+}
+
+button:hover {
+     background-color: #2563eb;
+     /* Darker blue */
+}
