@@ -41,8 +41,8 @@ pipeline {
           stage('Docker Build Using Docker Compose')
 		{
 			steps {
-                    sh "docker build -t ${DOCKERHUB_USERNAME}/travelguide-frontend -f Dockerfiles/FrontendDockerfile ."
-                    sh "docker build -t ${DOCKERHUB_USERNAME}/travelguide-backend -f Dockerfiles/BackendDockerfile ."
+                    sh "docker build -t frontend -f Dockerfiles/FrontendDockerfile ."
+                    sh "docker build -t backend -f Dockerfiles/BackendDockerfile ."
 
 			}
 		}
@@ -59,17 +59,16 @@ pipeline {
           stage('Push Docker Images to Registry') {
                steps {
                     script {
-					sh "docker image tag ${DOCKERHUB_USERNAME}/travelguide-backend ${DOCKERHUB_USERNAME}/travelguide-backend:version2.0"
+					sh "docker image tag frontend ${DOCKERHUB_USERNAME}/frontend:latest"
                          docker.withRegistry('', 'dockerhub-credentials') {
 
-						sh "docker push ${DOCKERHUB_USERNAME}/travelguide-backend:version2.0"
+						sh "docker push ${DOCKERHUB_USERNAME}/frontend:latest"
 
 					}
                          
-                         sh "docker image tag ${DOCKERHUB_USERNAME}/travelguide-frontend ${DOCKERHUB_USERNAME}/travelguide-frontend:version2.0"
+                         sh "docker image tag backend ${DOCKERHUB_USERNAME}/backend:latest"
                          docker.withRegistry('', 'dockerhub-credentials') {
-                              
-						sh "docker push ${DOCKERHUB_USERNAME}/travelguide-frontend:version2.0"
+						sh "docker push ${DOCKERHUB_USERNAME}/backend:latest"
 					}
 
                          // sh "docker tag mysql ${DOCKERHUB_USERNAME}/mysql"
