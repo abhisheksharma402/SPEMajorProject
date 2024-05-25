@@ -19,8 +19,6 @@
       docker_image:
         name: abhisheksharma402/mysql
         tag: latest
-        ports:
-          - '3306:3306'
         source: pull
 
     - name: Run Docker container for frontend
