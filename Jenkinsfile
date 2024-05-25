@@ -37,26 +37,6 @@ pipeline {
                }
           }
 
-          stage("Testing Backend"){
-               steps {
-                    dir('SPE-Project-Backend/main') {
-                         script{
-                              sh 'mvn test'
-                         }
-                    }
-               }
-          }
-
-          stage("Testing Frontend"){
-               steps {
-                    dir('SPE-Project-Frontend/SPE-Major-Project/SPEMajorProject'){
-                         script{
-                              sh 'npm test login'
-                         }
-                    }
-               }
-          }
-
           stage('Docker Build Using Docker Compose')
 		{
 			steps {
@@ -117,6 +97,26 @@ pipeline {
                     }
                }
 		}
+
+          stage("Testing Backend"){
+               steps {
+                    dir('SPE-Project-Backend/main') {
+                         script{
+                              sh 'mvn test'
+                         }
+                    }
+               }
+          }
+
+          stage("Testing Frontend"){
+               steps {
+                    dir('SPE-Project-Frontend/SPE-Major-Project/SPEMajorProject'){
+                         script{
+                              sh 'npm test login'
+                         }
+                    }
+               }
+          }
     }
 
 }
