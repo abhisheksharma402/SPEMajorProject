@@ -23,7 +23,7 @@ pipeline {
                     script {
                          // Stop all containers
                          sh 'docker stop $(docker ps -aq)'
-                         sh 'docker rmi $(docker images -q)'
+                         sh 'docker rmi -f $(docker images -q)'
                          sh 'docker images'
                     }
                }
