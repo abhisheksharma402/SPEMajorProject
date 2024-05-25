@@ -32,7 +32,7 @@ services:
   backend:
     container_name: spe-project-backend
     build:
-      context: ./SPE-Project-Backend/main/Dockerfile
+      context: ./SPE-Project-Backend/main
       dockerfile: Dockerfile
     ports:
       - '8083:9094'
