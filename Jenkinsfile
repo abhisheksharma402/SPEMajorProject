@@ -90,7 +90,8 @@ pipeline {
 		     steps {
 
                     script {
-
+                         sh 'docker images'
+                         
                          ansiblePlaybook (
 
                               playbook: 'playbook.yml',
