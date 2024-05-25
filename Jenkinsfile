@@ -37,7 +37,7 @@ pipeline {
                }
           }
 
-          steps("Testing Backend"){
+          stage("Testing Backend"){
                steps {
                     dir('SPE-Project-Backend/main') {
                          script{
@@ -47,7 +47,7 @@ pipeline {
                }
           }
 
-          steps("Testing Frontend"){
+          stage("Testing Frontend"){
                steps {
                     dir('SPE-Project-Frontend/SPE-Major-Project/SPEMajorProject'){
                          script{
@@ -67,13 +67,13 @@ pipeline {
 		}
 
           stage('List Docker Images') {
-            steps {
-                script {
-                    // Use Docker CLI to list images
-                    sh 'docker images'
-                }
-            }
-        }
+               steps {
+                    script {
+                         // Use Docker CLI to list images
+                         sh 'docker images'
+                    }
+               }
+          }
 
           stage('Push Docker Images to Registry') {
                steps {
