@@ -3,15 +3,15 @@
   hosts: localhost
   remote_user: abhisheksharma
   tasks:
-    - name: Pull Docker front image from Docker Hub
+    - name: Pull Docker frontend image from Docker Hub
       docker_image:
-        name: abhisheksharma402/spe_project_frontend
+        name: abhisheksharma402/travelguide_frontend
         tag: latest
         source: pull
 
     - name: Pull Docker backend image from Docker Hub
       docker_image:
-        name: abhisheksharma402/spe_project_backend
+        name: abhisheksharma402/travelguide_backend
         tag: latest
         source: pull
 
@@ -25,16 +25,16 @@
 
     - name: Run Docker container for frontend
       docker_container:
-        name: spe_project_frontend
-        image: abhisheksharma402/spe_project_frontend
+        name: travelguide_frontend
+        image: abhisheksharma402/travelguide_frontend
         ports:
           - "5173:5173"
         state: started
 
     - name: Run Docker container for backend
       docker_container:
-        name: spe_project_backend
-        image: abhisheksharma402/spe_project_backend:latest
+        name: travelguide_backend
+        image: abhisheksharma402/travelguide_backend:latest
         ports:
           - "8083:9094"
         state: started
