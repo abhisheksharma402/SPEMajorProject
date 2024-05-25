@@ -1,8 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from "react-router-dom";
-import '../style/Login.css'
+import { useNavigate } from "react-router";
+import '/home/abhisheksharma/abhishek/SPE-Major-Project/SPE-Project-Frontend/SPE-Major-Project/SPEMajorProject/src/pages/login/style/Login.css'
 import axios from 'axios';
+import { Notyf } from "notyf";
+import "notyf/notyf.min.css";
 
+const notyf = new Notyf({
+     position: {
+          x: "right",
+          y: "top",
+     },
+});
 
 const Login = () => {
      const navigate = useNavigate();
@@ -46,13 +54,13 @@ const Login = () => {
                console.log(data);
                if (data.role === "customer") {
                     response = await axios.post(
-                         "http://localhost:9092/user/login",
+                         "http://localhost:9094/user/login",
                          loginData
                     );
                }
                else if (data.role === "agency") {
                     response = await axios.post(
-                         "http://localhost:9092/agency/login",
+                         "http://localhost:9094/agency/login",
                          loginData,
                          {
                               headers: {
@@ -65,7 +73,7 @@ const Login = () => {
                }
                else {
                     response = await axios.post(
-                         "http://localhost:9092/agent/login",
+                         "http://localhost:9094/agent/login",
                          loginData,
                          {
                               headers: {
@@ -83,6 +91,9 @@ const Login = () => {
                //      state: { email: loginData.email, type: "login" },
                // });
           } catch (error) {
+               notyf.error(
+				"Error while Signing Up"
+			);
                console.error("Error signing up:", error);
           }
      }
@@ -270,6 +281,7 @@ const Login = () => {
                                    <div className="input-group">
                                         <i className="bx bxs-user"></i>
                                         <input
+                                             data-testid="signin-username"
                                              name="email"
                                              type="text"
                                              placeholder="Username"
@@ -279,6 +291,7 @@ const Login = () => {
                                    <div className="input-group">
                                         <i className="bx bxs-lock-alt"></i>
                                         <input
+                                             data-testid="signin-password"
                                              name="password"
                                              type="password"
                                              placeholder="Password"
@@ -286,6 +299,7 @@ const Login = () => {
                                         />
                                    </div>
                                    <button
+                                        data-testid="signin-btn"
                                         onClick={(e) => handleSignIn(e)}
                                    >Sign in</button>
                                    <p style={{ cursor: "pointer" }}

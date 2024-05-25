@@ -381,9 +381,8 @@ const AgencyDashBoard = () => {
                     }`}
                 >
                   <div className="hover:bg-[#D8FFFF] transition-colors duration-300 w-[42px] h-[42px] flex items-center justify-center rounded-sm">
-                    <Link to="/agency/packages">
+                    <Link to={`/agency/${data.name.toLowerCase()}`}>
                       <img src={data.img} alt="logo" />
-
                     </Link>
                   </div>
                   <span
