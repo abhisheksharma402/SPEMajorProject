@@ -1,8 +1,8 @@
 # version: '3'
 services:
   mysql:
+    image: mysql:8
     container_name: mysql-database
-    image: mysql:latest
     restart: always
     ports:
       - '3306:3306'
@@ -21,18 +21,18 @@ services:
       retries: 5
 
   frontend:
-    container_name: spe-frontend
-    image: abhisheksharma402/travelguide-frontend:version1.0
+    image: abhisheksharma402/frontendservice:latest
+    container_name: myfrontend
     ports:
-      - '5173:5173'
+      - "5173:5173"
     networks:
       - networkmysql
 
   backend:
-    container_name: spe-backend
-    image: abhisheksharma402/travelguide-backend:version1.0
+    image: abhisheksharma402/backendservice:latest
+    container_name: mybackend
     ports:
-      - '9092:9094'
+      - "9092:9094"
     environment:
       - MYSQL_HOST=mysql
       - MYSQL_PORT=3306
@@ -44,7 +44,7 @@ services:
       - networkmysql
     depends_on:
       - mysql
-    restart: on-failure
+    restart: on-failure:3
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:9092/actuator/health"]
       interval: 30s
@@ -53,7 +53,6 @@ services:
 
 networks:
   networkmysql:
-    driver: bridge
 volumes:
   mysql_data:
 

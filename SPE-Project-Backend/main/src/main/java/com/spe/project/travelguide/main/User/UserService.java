@@ -40,7 +40,7 @@ public class UserService {
     @Value("${application.mailing.frontend.activation-url}")
     private String activationUrl;
 
-    public void register(@Valid RegistrationRequest request) throws MessagingException {
+    public UserEntity register(@Valid RegistrationRequest request) throws MessagingException {
         var user = UserEntity.builder()
                 .firstName(request.getFirstName())
                 .lastName(request.getLastName())
@@ -51,6 +51,7 @@ public class UserService {
 
         userRepository.save(user);
         sendEmailValidation(user);
+        return user;
     }
 
     private void sendEmailValidation(UserEntity user) throws MessagingException {

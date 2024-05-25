@@ -11,21 +11,25 @@ pipeline {
     stages {
           stage('Checkout') {
                steps {
-               
 				script{
+                         cleanWs()
 					git branch: 'main', url: "${GITHUB_REPO_URL}"
 				}
 			}
           }
 
           stage('Making Port Avaiable') {
-            steps {
-                script {
-                    // Stop all containers
-                    sh 'docker stop $(docker ps -aq)'
-                }
-            }
-        }
+               steps {
+                    script {
+                         // Stop all containers
+                         sh 'docker stop $(docker ps -aq)'
+                         sh 'docker rm $(docker ps -aq)'
+                         sh 'docker rmi -f $(docker images -q)'
+                         
+                         sh 'docker images'
+                    }
+               }
+          }
 
           stage('Maven Build') {
                steps {
@@ -37,66 +41,64 @@ pipeline {
                }
           }
 
-          stage('Docker Build Using Docker Compose')
-		{
-			steps {
-                    sh "docker build -t abhisheksharma402/travelguide-frontend -f Dockerfiles/FrontendDockerfile ."
-                    sh "docker build -t abhisheksharma402/travelguide-backend -f Dockerfiles/BackendDockerfile ."
-
-			}
-		}
+        stage('Build Docker Images') {
+            steps {
+                echo 'Building Docker Images'
+                sh "docker build -t ${DOCKERHUB_USERNAME}/backendservice -f Dockerfiles/BackendDockerfile ."
+                sh "docker build -t ${DOCKERHUB_USERNAME}/frontendservice -f Dockerfiles/FrontendDockerfile ."
+            }
+        }
 
           stage('List Docker Images') {
+               steps {
+                    script {
+                         // Use Docker CLI to list images
+                         sh 'docker images'
+                    }
+               }
+          }
+          
+          stage('Login to Docker Hub') {
             steps {
-                script {
-                    // Use Docker CLI to list images
-                    sh 'docker images'
+                echo 'Login to Docker Hub'
+                withCredentials([usernamePassword(credentialsId: 'dockerhub-credentials', usernameVariable: 'abhisheksharma402', passwordVariable: 'Murli@9131')]) {
+                    sh "docker login -u ${DOCKERHUB_USERNAME} -p 'Murli@9131'"
                 }
             }
         }
 
-          stage('Push Docker Images to Registry') {
+        stage('Push Images to Docker Hub') {
+            steps {
+                echo 'Pushing Images to Docker Hub'
+                sh "docker push ${DOCKERHUB_USERNAME}/backendservice"
+                sh "docker push ${DOCKERHUB_USERNAME}/frontendservice"
+            }
+        }
+        
+
+          stage('Run Ansible Playbook') {
+            steps {
+                script {
+                    ansiblePlaybook(
+                        playbook: 'playbook.yml',
+                        inventory: 'inventory.txt'
+                    )
+                }
+            }
+        }
+
+          stage("Testing Frontend"){
                steps {
-                    script {
-					sh "docker image tag travelguide-backend ${DOCKERHUB_USERNAME}/travelguide-backend:version1.0"
-                         docker.withRegistry('', 'dockerhub-credentials') {
-
-						sh "docker push ${DOCKERHUB_USERNAME}/travelguide-backend:version1.0"
-
-					}
-                         
-                         sh "docker image tag travelguide-frontend ${DOCKERHUB_USERNAME}/travelguide-frontend:version1.0"
-                         docker.withRegistry('', 'dockerhub-credentials') {
-                              
-						sh "docker push ${DOCKERHUB_USERNAME}/travelguide-frontend:version1.0"
-					}
-
-                         // sh "docker tag mysql ${DOCKERHUB_USERNAME}/mysql"
-                         // docker.withRegistry('', 'dockerhub-credentials') {
-
-					// 	sh "docker push ${DOCKERHUB_USERNAME}/mysql"
-
-					// }
-
-
+                    dir('SPE-Project-Frontend/SPE-Major-Project/SPEMajorProject'){
+                         script{
+                              sh 'npm install --save-dev jest-environment-jsdom --force'
+                              sh 'npm install --save-dev jest@latest ts-jest@latest --force'
+                              // sh 'npm install -g ts-jest --force'
+                              sh 'npm run test:login'
+                         }
                     }
                }
           }
-
-          stage('Run Ansible Inventory and Playbook'){
-		     steps {
-
-                    script {
-
-                         ansiblePlaybook (
-
-                              playbook: 'playbook.yml',
-                              inventory: 'inventory.txt',
-                              extras: '-K',
-                         )
-                    }
-               }
-		}
     }
 
 }

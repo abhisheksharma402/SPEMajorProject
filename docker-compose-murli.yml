@@ -1,0 +1,59 @@
+version: '3'
+services:
+  mysql:
+    container_name: mysql-database
+    image: mysql:latest
+    restart: always
+    ports:
+      - '3306:3306'
+    environment:
+      - MYSQL_ROOT_PASSWORD=Hope@402
+      - MYSQL_DATABASE=travelguide
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - networkmysql
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  frontend:
+    container_name: spe-project-frontend
+    build:
+      context: ./SPE-Project-Frontend/SPE-Major-Project/SPEMajorProject
+      dockerfile: Dockerfile
+    ports:
+      - '5173:5173'
+    networks:
+      - networkmysql
+
+  backend:
+    container_name: spe-project-backend
+    build:
+      context: ./SPE-Project-Backend/main
+      dockerfile: Dockerfile
+    ports:
+      - '8083:9094'
+    environment:
+      - MYSQL_HOST=mysql
+      - MYSQL_PORT=3306
+      - MYSQL_DB_NAME=travelguide
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=Hope@402
+    networks:
+      - networkmysql
+    depends_on:
+      - mysql
+    restart: on-failure:3
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8083/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+networks:
+  networkmysql:
+volumes:
+  mysql_data:
