@@ -19,19 +19,39 @@ pipeline {
           }
 
           stage('Making Port Avaiable') {
-            steps {
-                script {
-                    // Stop all containers
-                    sh 'docker stop $(docker ps -aq)'
-                }
-            }
-        }
+               steps {
+                    script {
+                         // Stop all containers
+                         sh 'docker stop $(docker ps -aq)'
+                    }
+               }
+          }
 
           stage('Maven Build') {
                steps {
                     dir('SPE-Project-Backend/main') {
                          script{
                               sh 'mvn clean install -DskipTests'
+                         }
+                    }
+               }
+          }
+
+          steps("Testing Backend"){
+               steps {
+                    dir('SPE-Project-Backend/main') {
+                         script{
+                              sh 'mvn test'
+                         }
+                    }
+               }
+          }
+
+          steps("Testing Frontend"){
+               steps {
+                    dir('SPE-Project-Frontend/SPE-Major-Project/SPEMajorProject'){
+                         script{
+                              sh 'npm test login'
                          }
                     }
                }
