@@ -62,16 +62,16 @@ pipeline {
           stage('Push Docker Images to Registry') {
                steps {
                     script {
-					sh "docker image tag frontend ${DOCKERHUB_USERNAME}/frontend:latest"
+					sh "docker tag frontend ${DOCKERHUB_USERNAME}/frontend"
                          docker.withRegistry('', 'dockerhub-credentials') {
 
-						sh "docker push ${DOCKERHUB_USERNAME}/frontend:latest"
+						sh "docker push ${DOCKERHUB_USERNAME}/frontend"
 
 					}
                          
-                         sh "docker image tag backend ${DOCKERHUB_USERNAME}/backend:latest"
+                         sh "docker tag backend ${DOCKERHUB_USERNAME}/backend"
                          docker.withRegistry('', 'dockerhub-credentials') {
-						sh "docker push ${DOCKERHUB_USERNAME}/backend:latest"
+						sh "docker push ${DOCKERHUB_USERNAME}/backend"
 					}
 
                          // sh "docker tag mysql ${DOCKERHUB_USERNAME}/mysql"

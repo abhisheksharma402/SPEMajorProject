@@ -21,7 +21,7 @@ services:
 
   frontend:
     container_name: spe-frontend
-    image: abhisheksharma402/frontend:latest
+    image: abhisheksharma402/frontend
     ports:
       - '5173:5173'
     networks:
@@ -29,7 +29,7 @@ services:
 
   backend:
     container_name: spe-backend
-    image: abhisheksharma402/backend:latest
+    image: abhisheksharma402/backend
     ports:
       - '9092:9094'
     environment:
