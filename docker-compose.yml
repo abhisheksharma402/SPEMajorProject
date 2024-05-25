@@ -28,7 +28,7 @@ services:
       - networkmysql
 
   backend:
-    image: abhisheksharma402/frontendservice:latest
+    image: abhisheksharma402/backendservice:latest
     container_name: mybackend
     ports:
       - "9092:9094"
