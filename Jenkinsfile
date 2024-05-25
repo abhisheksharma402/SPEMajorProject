@@ -22,9 +22,11 @@ pipeline {
                steps {
                     script {
                          // Stop all containers
-                         
                          sh 'docker stop $(docker ps -aq)'
-                         // sh 'docker rmi -f $(docker images -q)'
+                         sh 'docker rm $(docker ps -aq)'
+                         sh 'docker rmi -f $(docker images -q)'
+                         
+                         sh 'docker images'
                     }
                }
           }
@@ -39,14 +41,13 @@ pipeline {
                }
           }
 
-          stage('Docker Build Using Docker Compose')
-		{
-			steps {
-             sh 'docker build -t abhisheksharma402/travelguide-frontend:version1.0 -f Dockerfiles/FrontendDockerfile .'
-             sh 'docker build -t abhisheksharma402/travelguide-backend:version1.0 -f Dockerfiles/BackendDockerfile .'
-
-			}
-		}
+        stage('Build Docker Images') {
+            steps {
+                echo 'Building Docker Images'
+                sh "docker build -t ${DOCKERHUB_USERNAME}/backendservice -f Dockerfiles/BackendDockerfile ."
+                sh "docker build -t ${DOCKERHUB_USERNAME}/frontendservice -f Dockerfiles/FrontendDockerfile ."
+            }
+        }
 
           stage('List Docker Images') {
                steps {
@@ -56,58 +57,35 @@ pipeline {
                     }
                }
           }
+          
+          stage('Login to Docker Hub') {
+            steps {
+                echo 'Login to Docker Hub'
+                withCredentials([usernamePassword(credentialsId: 'dockerhub-credentials', usernameVariable: 'abhisheksharma402', passwordVariable: 'Murli@9131')]) {
+                    sh "docker login -u ${DOCKERHUB_USERNAME} -p 'Murli@9131'"
+                }
+            }
+        }
 
-          stage('Push Docker Images to Registry') {
-               steps {
-                    script {
-					// sh "docker image tag ${DOCKERHUB_USERNAME}/travelguide-backend ${DOCKERHUB_USERNAME}/travelguide-backend:version1.0"
-                         docker.withRegistry('', 'dockerhub-credentials') {
+        stage('Push Images to Docker Hub') {
+            steps {
+                echo 'Pushing Images to Docker Hub'
+                sh "docker push ${DOCKERHUB_USERNAME}/backendservice"
+                sh "docker push ${DOCKERHUB_USERNAME}/frontendservice"
+            }
+        }
+        
 
-					sh 'docker push abhisheksharma402/travelguide-frontend:version1.0'
-                        sh 'docker push abhisheksharma402/travelguide-backend:version1.0'
-					}
-                         
-                         // sh "docker image tag ${DOCKERHUB_USERNAME}/travelguide-frontend ${DOCKERHUB_USERNAME}/travelguide-frontend:version1.0"
-                         // docker.withRegistry('', 'dockerhub-credentials') {
-					// }
-
-                         // sh "docker tag mysql ${DOCKERHUB_USERNAME}/mysql"
-                         // docker.withRegistry('', 'dockerhub-credentials') {
-
-					// 	sh "docker push ${DOCKERHUB_USERNAME}/mysql"
-
-					// }
-
-
-                    }
-               }
-          }
-
-          stage('Run Ansible Inventory and Playbook'){
-		     steps {
-
-                    script {
-                         sh 'docker images'
-
-                         ansiblePlaybook (
-
-                              playbook: 'playbook.yml',
-                              inventory: 'inventory.txt',
-                              extras: '-K',
-                         )
-                    }
-               }
-		}
-
-          stage("Testing Backend"){
-               steps {
-                    dir('SPE-Project-Backend/main') {
-                         script{
-                              sh 'mvn test'
-                         }
-                    }
-               }
-          }
+          stage('Run Ansible Playbook') {
+            steps {
+                script {
+                    ansiblePlaybook(
+                        playbook: 'playbook.yml',
+                        inventory: 'inventory.txt'
+                    )
+                }
+            }
+        }
 
           stage("Testing Frontend"){
                steps {
