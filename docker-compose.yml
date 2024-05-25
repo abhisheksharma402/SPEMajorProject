@@ -23,7 +23,7 @@ services:
     container_name: spe-project-frontend
     build:
       context: ./SPE-Project-Frontend/SPE-Major-Project/SPEMajorProject
-      dockerfile: FrontendDockerfile
+      dockerfile: Dockerfile
     ports:
       - '5173:5173'
     networks:
@@ -33,7 +33,7 @@ services:
     container_name: spe-project-backend
     build:
       context: ./SPE-Project-Backend/main/Dockerfile
-      dockerfile: BackendDockerfile
+      dockerfile: Dockerfile
     ports:
       - '8083:9094'
     environment:
