@@ -24,9 +24,7 @@ pipeline {
                          // Stop all containers
                          
                          sh 'docker stop $(docker ps -aq)'
-                         sh 'docker rmi -f $(docker images -q)'
-                         sh 'docker system prune -a'
-                         sh 'docker images'
+                         // sh 'docker rmi -f $(docker images -q)'
                     }
                }
           }
@@ -44,8 +42,8 @@ pipeline {
           stage('Docker Build Using Docker Compose')
 		{
 			steps {
-                    sh "docker build --no-cache -t abhisheksharma402/travelguide-frontend -f Dockerfiles/FrontendDockerfile ."
-                    sh "docker build --no-cache -t abhisheksharma402/travelguide-backend -f Dockerfiles/BackendDockerfile ."
+                    sh "docker build -t abhisheksharma402/travelguide-frontend -f Dockerfiles/FrontendDockerfile ."
+                    sh "docker build -t abhisheksharma402/travelguide-backend -f Dockerfiles/BackendDockerfile ."
 
 			}
 		}
