@@ -104,7 +104,6 @@
     #     dest: ./
 
     - name: Run docker compose up command
-      become: true
       docker_compose:
         project_src: ./
         state: present
