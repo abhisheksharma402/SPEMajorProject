@@ -23,7 +23,7 @@ pipeline {
                     script {
                          // Stop all containers
                          sh 'docker stop $(docker ps -aq)'
-                         sh 'docker rm $(docker ps -aq) || true'
+                         sh 'docker rmi -f $(docker ps -aq) || true'
                     }
                }
           }
@@ -59,17 +59,17 @@ pipeline {
           stage('Push Docker Images to Registry') {
                steps {
                     script {
-					sh "docker image tag travelguide-backend ${DOCKERHUB_USERNAME}/travelguide-backend:version1.0"
+					sh "docker image tag ${DOCKERHUB_USERNAME}/travelguide-backend ${DOCKERHUB_USERNAME}/travelguide-backend:version2.0"
                          docker.withRegistry('', 'dockerhub-credentials') {
 
-						sh "docker push ${DOCKERHUB_USERNAME}/travelguide-backend:version1.0"
+						sh "docker push ${DOCKERHUB_USERNAME}/travelguide-backend:version2.0"
 
 					}
                          
-                         sh "docker image tag travelguide-frontend ${DOCKERHUB_USERNAME}/travelguide-frontend:version1.0"
+                         sh "docker image tag ${DOCKERHUB_USERNAME}/travelguide-frontend ${DOCKERHUB_USERNAME}/travelguide-frontend:version2.0"
                          docker.withRegistry('', 'dockerhub-credentials') {
                               
-						sh "docker push ${DOCKERHUB_USERNAME}/travelguide-frontend:version1.0"
+						sh "docker push ${DOCKERHUB_USERNAME}/travelguide-frontend:version2.0"
 					}
 
                          // sh "docker tag mysql ${DOCKERHUB_USERNAME}/mysql"
