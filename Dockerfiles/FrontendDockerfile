@@ -21,12 +21,3 @@ EXPOSE 5173
 # Build the React app
 CMD ["npm", "run", "dev"]
 
-# Use a smaller image to serve the built app
-# FROM nginx:alpine
-# COPY --from=0 /app/build /usr/share/nginx/html
-
-# # Expose the port the app runs on
-# EXPOSE 80
-
-# # Run nginx
-# CMD ["nginx", "-g", "daemon off;"]
