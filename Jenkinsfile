@@ -114,7 +114,7 @@ pipeline {
                          script{
                               sh 'npm install --save-dev jest-environment-jsdom --force'
                               sh 'npm install --save-dev jest@latest ts-jest@latest --force'
-                              sh 'npm install -g ts-jest --force'
+                              // sh 'npm install -g ts-jest --force'
                               sh 'npm run test:login'
                          }
                     }
