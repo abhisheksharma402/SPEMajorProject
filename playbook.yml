@@ -119,4 +119,4 @@
     - name: Run Docker Compose
       command: docker-compose up -d
       args:
-        chdir: /var/lib/jenkins/workspace/SPE-Major-Project
+        chdir: /var/lib/jenkins/workspace/travelguide
