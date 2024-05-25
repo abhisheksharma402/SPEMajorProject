@@ -3,6 +3,42 @@
   hosts: localhost
   remote_user: abhisheksharma
   tasks:
+    - name: Pull Docker front image from Docker Hub
+      docker_image:
+        name: abhisheksharma402/spe_project_frontend
+        tag: latest
+        source: pull
+
+    - name: Pull Docker backend image from Docker Hub
+      docker_image:
+        name: abhisheksharma402/spe_project_backend
+        tag: latest
+        source: pull
+
+    - name: Pull Docker mysql image from Docker Hub
+      docker_image:
+        name: abhisheksharma402/mysql
+        tag: latest
+        ports:
+          - '3306:3306'
+        source: pull
+
+    - name: Run Docker container for front
+      docker_container:
+        name: spe_project_frontend
+        image: abhisheksharma402/spe_project_frontend
+        ports:
+          - "5173:5173"
+        state: started
+
+    - name: Run Docker container for backend
+      docker_container:
+        name: spe_project_frontend
+        image: abhisheksharma402/spe_project_backend:latest
+        ports:
+          - "8083:9094"
+        state: started
+
     # - name: Pull Frontend Docker Image
     #   docker_image:
     #     name: "abhisheksharma402/travelguide-frontend:version1.0"
@@ -25,21 +61,21 @@
     #   debug:
     #     var: docker_pull_result
 
-    - name: Start Docker Service
-      service:
-        name: docker
-        state: started
+    # - name: Start Docker Service
+    #   service:
+    #     name: docker
+    #     state: started
 
-    - name: Copy Docker Compose file
-      copy:
-        src: docker-compose.yml
-        dest: ./
+    # - name: Copy Docker Compose file
+    #   copy:
+    #     src: docker-compose.yml
+    #     dest: ./
     
-    - name: Run Docker Compose up command
-      docker_compose:
-        project_src: ./
-        state: present
-        pull: yes
+    # - name: Run Docker Compose up command
+    #   docker_compose:
+    #     project_src: ./
+    #     state: present
+    #     pull: yes
 
 
     # - name: Running MySQL Container
