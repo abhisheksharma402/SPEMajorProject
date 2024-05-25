@@ -1,41 +1,41 @@
----
-- name: Pull Docker Image From DockerHub
-  hosts: localhost
-  remote_user: abhisheksharma
-  tasks:
-    - name: Pull Docker frontend image from Docker Hub
-      docker_image:
-        name: abhisheksharma402/travelguide_frontend
-        tag: latest
-        source: pull
+# ---
+# - name: Pull Docker Image From DockerHub
+#   hosts: localhost
+#   remote_user: abhisheksharma
+#   tasks:
+#     - name: Pull Docker frontend image from Docker Hub
+#       docker_image:
+#         name: abhisheksharma402/travelguide_frontend
+#         tag: latest
+#         source: pull
 
-    - name: Pull Docker backend image from Docker Hub
-      docker_image:
-        name: abhisheksharma402/travelguide_backend
-        tag: latest
-        source: pull
+#     - name: Pull Docker backend image from Docker Hub
+#       docker_image:
+#         name: abhisheksharma402/travelguide_backend
+#         tag: latest
+#         source: pull
 
-    - name: Pull Docker mysql image from Docker Hub
-      docker_image:
-        name: abhisheksharma402/mysql
-        tag: latest
-        source: pull
+#     - name: Pull Docker mysql image from Docker Hub
+#       docker_image:
+#         name: abhisheksharma402/mysql
+#         tag: latest
+#         source: pull
 
-    - name: Run Docker container for frontend
-      docker_container:
-        name: travelguide_frontend
-        image: abhisheksharma402/travelguide_frontend:latest
-        ports:
-          - "5173:5173"
-        state: started
+#     - name: Run Docker container for frontend
+#       docker_container:
+#         name: travelguide_frontend
+#         image: abhisheksharma402/travelguide_frontend:latest
+#         ports:
+#           - "5173:5173"
+#         state: started
 
-    - name: Run Docker container for backend
-      docker_container:
-        name: travelguide_backend
-        image: abhisheksharma402/travelguide_backend:latest
-        ports:
-          - "8083:9094"
-        state: started
+#     - name: Run Docker container for backend
+#       docker_container:
+#         name: travelguide_backend
+#         image: abhisheksharma402/travelguide_backend:latest
+#         ports:
+#           - "8083:9094"
+#         state: started
 
     # - name: Pull Frontend Docker Image
     #   docker_image:
@@ -85,4 +85,27 @@
     # - name: Running Backend Container
     #   shell: /usr/bin/docker run -d -p 9092:9094 abhisheksharma402/travelguide-backend:version1.0
     
-    
+- name: Use docker compose to run all containers
+  hosts: all
+  tasks:
+    - name: Start docker service
+      service:
+        name: docker
+        state: started
+
+    - name: Copy Docker Compose file
+      copy:
+        src: docker-compose.yml
+        dest: ./
+        
+    # - name: Copy Env file
+    #   copy:
+    #     src: docker_namespace.env
+    #     dest: ./
+
+    - name: Run docker compose up command
+      become: true
+      docker_compose:
+        project_src: ./
+        state: present
+        pull: yes

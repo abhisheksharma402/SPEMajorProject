@@ -1,8 +1,8 @@
 version: '3'
 services:
   mysql:
-    image: mysql:8
     container_name: mysql-database
+    image: mysql:latest
     restart: always
     ports:
       - '3306:3306'
@@ -20,18 +20,22 @@ services:
       retries: 5
 
   frontend:
-    image: abhisheksharma402/frontendservice
-    container_name: myfrontend
+    container_name: spe-project-frontend
+    build:
+      context: ./SPE-Project-Frontend/SPE-Major-Project/SPEMajorProject
+      dockerfile: Dockerfile
     ports:
-      - "5173:5173"
+      - '5173:5173'
     networks:
       - networkmysql
 
   backend:
-    image: abhisheksharma402/backendservice
-    container_name: mybackend
+    container_name: spe-project-backend
+    build:
+      context: ./SPE-Project-Backend/main
+      dockerfile: Dockerfile
     ports:
-      - "9092:9094"
+      - '8083:9094'
     environment:
       - MYSQL_HOST=mysql
       - MYSQL_PORT=3306
