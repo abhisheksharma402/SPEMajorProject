@@ -7,7 +7,8 @@ services:
     ports:
       - '3306:3306'
     environment:
-      - MYSQL_ROOT_PASSWORD=Hope@402
+      # - MYSQL_ROOT_PASSWORD=Hope@402
+      - MYSQL_ROOT_PASSWORD=root
       - MYSQL_DATABASE=travelguide
     volumes:
       - mysql_data:/var/lib/mysql
@@ -37,7 +38,8 @@ services:
       - MYSQL_PORT=3306
       - MYSQL_DB_NAME=travelguide
       - MYSQL_USER=root
-      - MYSQL_PASSWORD=Hope@402
+      - MYSQL_PASSWORD=root
+      # - MYSQL_PASSWORD=Hope@402
     networks:
       - networkmysql
     depends_on:
@@ -54,3 +56,101 @@ networks:
     driver: bridge
 volumes:
   mysql_data:
+
+# version: '3'
+# services:
+#   mysql:
+#     container_name: mysql-database
+#     image: mysql:latest
+#     restart: always
+#     ports:
+#       - '3306:3306'
+#     environment:
+#       - MYSQL_ROOT_PASSWORD=root
+#       - MYSQL_DATABASE=travelguide
+#     volumes:
+#       - mysql_data:/var/lib/mysql
+#     networks:
+#       - networkmysql
+#     healthcheck:
+#       test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+#       interval: 30s
+#       timeout: 10s
+#       retries: 5
+
+#   frontend:
+#     container_name: spe-frontend
+#     image: abhisheksharma402/travelguide-frontend:version1.0
+#     ports:
+#       - '5173:5173'
+#     networks:
+#       - networkmysql
+
+#   backend:
+#     container_name: spe-backend
+#     image: abhisheksharma402/travelguide-backend:version1.0
+#     ports:
+#       - '9092:9094'
+#     environment:
+#       - MYSQL_HOST=mysql
+#       - MYSQL_PORT=3306
+#       - MYSQL_DB_NAME=travelguide
+#       - MYSQL_USER=root
+#       - MYSQL_PASSWORD=root
+#     networks:
+#       - networkmysql
+#     depends_on:
+#       - mysql
+#     restart: on-failure
+#     healthcheck:
+#       test: ["CMD", "curl", "-f", "http://localhost:9092/actuator/health"]
+#       interval: 30s
+#       timeout: 10s
+#       retries: 3
+
+  # elasticsearch:
+  #   container_name: elasticsearch
+  #   image: docker.elastic.co/elasticsearch/elasticsearch:7.12.0
+  #   ports:
+  #     - '9200:9200'
+  #     - '9300:9300'
+  #   environment:
+  #     - discovery.type=single-node
+  #   networks:
+  #     - networkmysql
+
+  # kibana:
+  #   container_name: kibana
+  #   image: docker.elastic.co/kibana/kibana:7.12.0
+  #   ports:
+  #     - '5601:5601'
+  #   environment:
+  #     - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+  #   networks:
+  #     - networkmysql
+
+  # logstash:
+  #   container_name: logstash
+  #   image: docker.elastic.co/logstash/logstash:7.12.0
+  #   ports:
+  #     - '5044:5044'
+  #   volumes:
+  #     - ./logstash-config:/usr/share/logstash/pipeline/logstash.conf
+  #   networks:
+  #     - networkmysql
+
+  # filebeat:
+  #   container_name: filebeat
+  #   image: docker.elastic.co/beats/filebeat:7.12.0
+  #   volumes:
+  #     - ./filebeat-config:/usr/share/filebeat/filebeat.yml
+  #     - /path/to/store/logs:/path/to/store/logs
+  #   networks:
+  #     - networkmysql
+
+# networks:
+#   networkmysql:
+#     driver: bridge
+
+# volumes:
+#   mysql_data:

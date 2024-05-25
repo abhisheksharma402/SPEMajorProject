@@ -1,1 +1,1 @@
-localhost ansible_connection=local localhost ansible_user=somesh ansible_ssh_pass=3110 ansible_become_pass=3110
+ansible_host=localhost ansible_connection=local ansible_user=somesh ansible_ssh_pass=3110 ansible_become_pass=3110

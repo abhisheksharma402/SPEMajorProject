@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from "react-router";
-import '/home/abhisheksharma/abhishek/SPE-Major-Project/SPE-Project-Frontend/SPE-Major-Project/SPEMajorProject/src/pages/login/style/Login.css'
+import '../style/Login.css'
 import axios from 'axios';
 import { Notyf } from "notyf";
 import "notyf/notyf.min.css";
