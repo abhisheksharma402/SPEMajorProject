@@ -49,12 +49,12 @@ public class AgentEntity implements UserDetails, Principal {
     private LocalDateTime verifiedAt;
 
     @OneToMany(mappedBy = "agent", cascade = CascadeType.ALL)
-    @JsonManagedReference (value = "agent-package")
+    @JsonManagedReference
     private List<PackageEntity> packages;
 
     @ManyToOne
     @JoinColumn(name="agency_id")
-    @JsonBackReference(value = "agency-agent")
+    @JsonBackReference
     private AgencyEntity agency;
 
     @Override

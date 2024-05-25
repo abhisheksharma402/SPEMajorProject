@@ -41,6 +41,7 @@ public class SecurityConfig {
                                 .requestMatchers("/user/hello").permitAll()
                                 .requestMatchers("/agency/makePackage").permitAll()
                                 .requestMatchers("/agency/agents").permitAll()
+                                .requestMatchers("/user/packages").permitAll()
                                 .requestMatchers("/**").fullyAuthenticated()
                         )
                 .sessionManagement(session-> session.sessionCreationPolicy(STATELESS))

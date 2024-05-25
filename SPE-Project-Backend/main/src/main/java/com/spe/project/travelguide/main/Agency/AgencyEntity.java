@@ -1,6 +1,7 @@
 package com.spe.project.travelguide.main.Agency;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.spe.project.travelguide.main.Agent.AgentEntity;
 import com.spe.project.travelguide.main.Package.PackageEntity;
@@ -51,11 +52,11 @@ public class AgencyEntity implements UserDetails, Principal {
     private String emailDomain;
 
     @OneToMany(mappedBy = "agency", cascade = CascadeType.ALL)
-    @JsonManagedReference (value = "agency-package")
+    @JsonManagedReference
     private List<PackageEntity> packages;
 
     @OneToMany(mappedBy = "agency", cascade = CascadeType.ALL)
-    @JsonManagedReference(value = "agency-agent")
+    @JsonManagedReference
     private List<AgentEntity> agents;
 
     private String activationToken;

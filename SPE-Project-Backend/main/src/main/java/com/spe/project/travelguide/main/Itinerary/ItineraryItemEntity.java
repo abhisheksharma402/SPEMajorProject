@@ -2,6 +2,7 @@ package com.spe.project.travelguide.main.Itinerary;
 
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.spe.project.travelguide.main.Package.PackageEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -27,7 +28,7 @@ public class ItineraryItemEntity {
 
     @ManyToOne
     @JoinColumn(name = "package_id")
-    @JsonBackReference(value = "itinerary-package")
+    @JsonBackReference
     private PackageEntity packageEntity;
 
 }
