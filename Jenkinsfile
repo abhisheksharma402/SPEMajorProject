@@ -11,8 +11,8 @@ pipeline {
     stages {
           stage('Checkout') {
                steps {
-               
 				script{
+                         cleanWs()
 					git branch: 'main', url: "${GITHUB_REPO_URL}"
 				}
 			}
@@ -23,6 +23,7 @@ pipeline {
                     script {
                          // Stop all containers
                          sh 'docker stop $(docker ps -aq)'
+                         sh 'docker rm $(docker ps -aq) || true'
                     }
                }
           }
@@ -40,8 +41,8 @@ pipeline {
           stage('Docker Build Using Docker Compose')
 		{
 			steps {
-                    sh "docker build -t abhisheksharma402/travelguide-frontend -f Dockerfiles/FrontendDockerfile ."
-                    sh "docker build -t abhisheksharma402/travelguide-backend -f Dockerfiles/BackendDockerfile ."
+                    sh "docker build -t ${DOCKERHUB_USERNAME}/travelguide-frontend -f Dockerfiles/FrontendDockerfile ."
+                    sh "docker build -t ${DOCKERHUB_USERNAME}/travelguide-backend -f Dockerfiles/BackendDockerfile ."
 
 			}
 		}
