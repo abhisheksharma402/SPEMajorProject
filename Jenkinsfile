@@ -112,7 +112,7 @@ pipeline {
                steps {
                     dir('SPE-Project-Frontend/SPE-Major-Project/SPEMajorProject'){
                          script{
-                              sh 'npm test login'
+                              sh 'npm run test:login'
                          }
                     }
                }
