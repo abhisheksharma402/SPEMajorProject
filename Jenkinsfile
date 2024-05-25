@@ -44,8 +44,8 @@ pipeline {
           stage('Docker Build Using Docker Compose')
 		{
 			steps {
-                    sh "docker build --no-cache -t frontend -f Dockerfiles/FrontendDockerfile ."
-                    sh "docker build --no-cache -t backend -f Dockerfiles/BackendDockerfile ."
+                    sh "docker build --no-cache -t abhisheksharma402/travelguide-frontend -f Dockerfiles/FrontendDockerfile ."
+                    sh "docker build --no-cache -t abhisheksharma402/travelguide-backend -f Dockerfiles/BackendDockerfile ."
 
 			}
 		}
@@ -62,16 +62,16 @@ pipeline {
           stage('Push Docker Images to Registry') {
                steps {
                     script {
-					sh "docker tag frontend ${DOCKERHUB_USERNAME}/frontend"
+					sh "docker image tag travelguide-backend ${DOCKERHUB_USERNAME}/travelguide-backend:version1.0"
                          docker.withRegistry('', 'dockerhub-credentials') {
 
-						sh "docker push ${DOCKERHUB_USERNAME}/frontend"
+						sh "docker push ${DOCKERHUB_USERNAME}/travelguide-backend:version1.0"
 
 					}
                          
-                         sh "docker tag backend ${DOCKERHUB_USERNAME}/backend"
+                         sh "docker image tag travelguide-frontend ${DOCKERHUB_USERNAME}/travelguide-frontend:version1.0"
                          docker.withRegistry('', 'dockerhub-credentials') {
-						sh "docker push ${DOCKERHUB_USERNAME}/backend"
+						sh "docker push ${DOCKERHUB_USERNAME}/travelguide-frontend:version1.0"
 					}
 
                          // sh "docker tag mysql ${DOCKERHUB_USERNAME}/mysql"
