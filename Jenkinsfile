@@ -62,14 +62,14 @@ pipeline {
           stage('Push Docker Images to Registry') {
                steps {
                     script {
-					sh "docker image tag travelguide-backend ${DOCKERHUB_USERNAME}/travelguide-backend:version1.0"
+					sh "docker image tag ${DOCKERHUB_USERNAME}/travelguide-backend ${DOCKERHUB_USERNAME}/travelguide-backend:version1.0"
                          docker.withRegistry('', 'dockerhub-credentials') {
 
 						sh "docker push ${DOCKERHUB_USERNAME}/travelguide-backend:version1.0"
 
 					}
                          
-                         sh "docker image tag travelguide-frontend ${DOCKERHUB_USERNAME}/travelguide-frontend:version1.0"
+                         sh "docker image tag ${DOCKERHUB_USERNAME}/travelguide-frontend ${DOCKERHUB_USERNAME}/travelguide-frontend:version1.0"
                          docker.withRegistry('', 'dockerhub-credentials') {
 						sh "docker push ${DOCKERHUB_USERNAME}/travelguide-frontend:version1.0"
 					}
