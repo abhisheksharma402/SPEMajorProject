@@ -1,7 +1,7 @@
 ---
 - name: Pull Docker Image From DockerHub
   hosts: localhost
-  remote_user: abhisheksharma
+  # remote_user: abhisheksharma
   tasks:
     # - name: Pull Frontend Docker Image
     #   docker_image:

@@ -1,1 +1,11 @@
-ansible_host=localhost ansible_connection=local ansible_user=abhisheksharma ansible_ssh_pass=Hope@402 ansible_become_pass=Hope@402
+
+# inventory.txt
+
+[local]
+localhost ansible_connection=local
+
+[abhishek]
+localhost ansible_user=abhisheksharma ansible_ssh_pass=Hope@402 ansible_become_pass=Hope@402
+
+[somesh]
+localhost ansible_user=somesh ansible_ssh_pass=3110 ansible_become_pass=3110
