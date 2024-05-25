@@ -22,8 +22,10 @@ pipeline {
                steps {
                     script {
                          // Stop all containers
+                         
                          sh 'docker stop $(docker ps -aq)'
                          sh 'docker rmi -f $(docker images -q)'
+                         sh 'docker system prune -a'
                          sh 'docker images'
                     }
                }
@@ -42,8 +44,8 @@ pipeline {
           stage('Docker Build Using Docker Compose')
 		{
 			steps {
-                    sh "docker build -t frontend -f Dockerfiles/FrontendDockerfile ."
-                    sh "docker build -t backend -f Dockerfiles/BackendDockerfile ."
+                    sh "docker build --no-cache -t frontend -f Dockerfiles/FrontendDockerfile ."
+                    sh "docker build --no-cache -t backend -f Dockerfiles/BackendDockerfile ."
 
 			}
 		}
