@@ -14,14 +14,14 @@ services:
     networks:
       - networkmysql
     healthcheck:
-      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
       interval: 30s
       timeout: 10s
       retries: 5
 
   frontend:
     container_name: spe-frontend
-    image: abhisheksharma402/travelguide-frontend
+    image: abhisheksharma402/travelguide-frontend:version1.0
     ports:
       - '5173:5173'
     networks:
@@ -29,9 +29,9 @@ services:
 
   backend:
     container_name: spe-backend
-    image: abhisheksharma402/travelguide-backend
+    image: abhisheksharma402/travelguide-backend:version1.0
     ports:
-      - '9092:9094'
+      - '9092:9092'
     environment:
       - MYSQL_HOST=mysql
       - MYSQL_PORT=3306
@@ -44,7 +44,13 @@ services:
       - mysql
     restart: on-failure
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:9092/actuator/health"]
+      test:
+        [
+          "CMD",
+          "curl",
+          "-f",
+          "http://localhost:9092/actuator/health"
+        ]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -52,5 +58,6 @@ services:
 networks:
   networkmysql:
     driver: bridge
+
 volumes:
   mysql_data:

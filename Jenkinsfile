@@ -42,8 +42,8 @@ pipeline {
           stage('Docker Build Using Docker Compose')
 		{
 			steps {
-                    sh "docker build -t abhisheksharma402/travelguide-frontend -f Dockerfiles/FrontendDockerfile ."
-                    sh "docker build -t abhisheksharma402/travelguide-backend -f Dockerfiles/BackendDockerfile ."
+             sh 'docker build -t abhisheksharma402/travelguide-frontend:version1.0 -f Dockerfiles/FrontendDockerfile .'
+             sh 'docker build -t abhisheksharma402/travelguide-backend:version1.0 -f Dockerfiles/BackendDockerfile .'
 
 			}
 		}
@@ -63,9 +63,8 @@ pipeline {
 					// sh "docker image tag ${DOCKERHUB_USERNAME}/travelguide-backend ${DOCKERHUB_USERNAME}/travelguide-backend:version1.0"
                          docker.withRegistry('', 'dockerhub-credentials') {
 
-						sh "docker push ${DOCKERHUB_USERNAME}/travelguide-backend"
-
-						sh "docker push ${DOCKERHUB_USERNAME}/travelguide-frontend"
+					sh 'docker push abhisheksharma402/travelguide-frontend:version1.0'
+                        sh 'docker push abhisheksharma402/travelguide-backend:version1.0'
 					}
                          
                          // sh "docker image tag ${DOCKERHUB_USERNAME}/travelguide-frontend ${DOCKERHUB_USERNAME}/travelguide-frontend:version1.0"
