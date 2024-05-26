@@ -1,12 +1,15 @@
 package com.spe.project.travelguide.main.User;
 
+import com.spe.project.travelguide.main.Booking.BookingEntity;
 import com.spe.project.travelguide.main.Package.PackageEntity;
 import com.spe.project.travelguide.main.Package.PackageRepository;
+import com.spe.project.travelguide.main.dto.requests.BuyPackageRequest;
 import com.spe.project.travelguide.main.dto.requests.UserActivationRequest;
 import com.spe.project.travelguide.main.dto.response.AuthenticationResponse;
 import com.spe.project.travelguide.main.dto.requests.AuthenticationRequest;
 import com.spe.project.travelguide.main.dto.requests.RegistrationRequest;
 import com.spe.project.travelguide.main.dto.response.GetPackageResponse;
+import com.spe.project.travelguide.main.dto.response.RegistrationResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;
@@ -33,9 +36,17 @@ public class UserController {
 
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public ResponseEntity<?> register(@RequestBody @Valid RegistrationRequest request) throws MessagingException {
+    public ResponseEntity<RegistrationResponse> register(@RequestBody @Valid RegistrationRequest request) throws MessagingException {
+        System.out.println(request.getPassword());
         userService.register(request);
-        return ResponseEntity.accepted().build();
+        var registrationResponse = RegistrationResponse.builder()
+                .email(request.getEmail())
+                .firstName(request.getFirstName())
+                .lastName(request.getLastName())
+                .build();
+
+        return ResponseEntity.ok(registrationResponse);
+
     }
 
     @PostMapping("/login")
@@ -57,6 +68,7 @@ public class UserController {
 
     @GetMapping("/packages")
     public ResponseEntity<List<GetPackageResponse>> getPackages(@RequestParam @Valid String destination){
+        System.out.println(destination);
         List<PackageEntity> packageEntityList = packageRepository.findByDestination(destination);
 
         List<GetPackageResponse> response = new ArrayList<>();
@@ -82,6 +94,13 @@ public class UserController {
 
     }
 
+
+//    @PostMapping("/buyPackage")
+//    public ResponseEntity<BookingEntity> buyPakcage(@RequestBody @Valid BuyPackageRequest buyPackageRequest){
+//
+//
+//
+//    }
 
 
 }

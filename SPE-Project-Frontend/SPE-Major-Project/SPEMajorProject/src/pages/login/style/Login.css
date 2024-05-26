@@ -373,9 +373,10 @@ z-index: 2;
      outline: none;
 }
 
-#customer,#agency,#agent{
+#signup-customer,#signup-agency,#login-customer,#login-agency,#login-agent{
     background-color: #efefef;
     border-radius: 0rem ;
     color:black;
     font-size: 1rem;
 }
+

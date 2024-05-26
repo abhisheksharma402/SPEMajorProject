@@ -15,8 +15,8 @@ import hamburger from './assets/travelagency-admin/hamburger.svg';
 import { Link } from "react-router-dom";
 
 const navitem = [
-     { img: home, name: "Home" },
-     { img: gifticon, name: "Plan a Trip" },
+     { img: home, name: "Dashboard" },
+     { img: gifticon, name: "Plan" },
      { img: iconthree, name: "Upcoming Trips" },
      { img: iconfour, name: "Past Trips" }
 ];
@@ -380,7 +380,7 @@ const DashBoard = () => {
                                                   }`}
                                         >
                                              <div className="hover:bg-[#D8FFFF] transition-colors duration-300 w-[42px] h-[42px] flex items-center justify-center rounded-sm">
-                                                  <Link to="/agency/packages">
+                                                  <Link to={`/customer/${data.name.toLowerCase()}`}>
                                                        <img src={data.img} alt="logo" />
 
                                                   </Link>
@@ -474,27 +474,6 @@ const DashBoard = () => {
                                                        alt="searchicon"
                                                        className="hidden md:block cursor-pointer"
                                                   />
-                                             </div>
-                                             <div className="flex flex-col lg:flex-row w-full gap-5 justify-between">
-                                                  {cardinfo.map((data, index) => {
-                                                       return (
-                                                            <div
-                                                                 key={index}
-                                                                 className="bg-gradient-to-b from-teal-400 to-blue-500 p-[1px] rounded-xl cursor-pointer w-full"
-                                                            >
-                                                                 <div className="hover:shadow-lg p-5 w-full bg-white flex-col rounded-[11px] xl:rounded-[13px] flex gap-4 ">
-                                                                      <div className="text-[#637381] text-sm font-semibold">
-                                                                           {data.title}
-                                                                      </div>
-                                                                      <div className="flex justify-between">
-                                                                           <div className="text-black text-2xl font-extrabold">
-                                                                                {data.digit}
-                                                                           </div>
-                                                                      </div>
-                                                                 </div>
-                                                            </div>
-                                                       );
-                                                  })}
                                              </div>
                                         </div>
                                         <div className="overflow-x-auto flex flex-col min-h-[300px]">

@@ -27,9 +27,5 @@ public class BookingEntity {
     @JoinColumn(name="user_id")
     private UserEntity user;
 
-    @OneToOne
-    @JoinColumn(name = "payment_id")
-    private PaymentEntity payment;
-
 
 }
