@@ -63,6 +63,7 @@ public class UserController {
 
     @GetMapping("/packages")
     public ResponseEntity<List<GetPackageResponse>> getPackages(@RequestParam @Valid String destination){
+        System.out.println(destination);
         List<PackageEntity> packageEntityList = packageRepository.findByDestination(destination);
 
         List<GetPackageResponse> response = new ArrayList<>();
