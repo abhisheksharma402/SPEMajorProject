@@ -276,6 +276,7 @@ const Login = () => {
                                              value="customer"
                                              variant="contained"
                                              onClick={handleSignUpChange}
+                                             data-testid="customer-role-signup"
                                         // style={{ backgroundColor: "#4FA786" }}
                                         >
                                              Customer
@@ -287,6 +288,7 @@ const Login = () => {
                                              value="agency"
                                              variant="contained"
                                              onClick={handleSignUpChange}
+                                             data-testid="agency-role-signup"
                                         >
                                              Agency
                                         </button>
@@ -360,6 +362,7 @@ const Login = () => {
                                              value="customer"
                                              variant="contained"
                                              onClick={handleSignInChange}
+                                             data-testid="customer-role-login"
                                         // style={{ backgroundColor: "#4FA786" }}
                                         >
                                              Customer
@@ -370,6 +373,7 @@ const Login = () => {
                                              name="role"
                                              value="agency"
                                              variant="contained"
+                                             data-testid="agency-role-login"
                                              onClick={handleSignInChange}
                                         >
                                              Agency
@@ -381,6 +385,7 @@ const Login = () => {
                                              value="agent"
                                              variant="contained"
                                              onClick={handleSignInChange}
+                                             data-testid="agent-role-login"
                                         >
                                              Agent
                                         </button>
