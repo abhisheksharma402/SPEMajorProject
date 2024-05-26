@@ -7,8 +7,8 @@ services:
     ports:
       - '3306:3306'
     environment:
-      # - MYSQL_ROOT_PASSWORD=Hope@402
-      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_ROOT_PASSWORD=Hope@402
+      # - MYSQL_ROOT_PASSWORD=root
       - MYSQL_DATABASE=travelguide
     volumes:
       - mysql_data:/var/lib/mysql
@@ -38,8 +38,10 @@ services:
       - MYSQL_PORT=3306
       - MYSQL_DB_NAME=travelguide
       - MYSQL_USER=root
-      - MYSQL_PASSWORD=root
-      # - MYSQL_PASSWORD=Hope@402
+      - MYSQL_PASSWORD=Hope@402
+      - LOGGING_LOGSTASH_HOST=logstash
+      - LOGGING_LOGSTASH_PORT=5001
+      # - MYSQL_PASSWORD=root
     networks:
       - networkmysql
     depends_on:
@@ -61,8 +63,8 @@ services:
       - xpack.security.enabled=false
     ports:
       - "9200:9200"
-    volumes:
-      - elastic_data:/usr/share/elasticsearch/data
+    # volumes:
+    #   - elastic_data:/usr/share/elasticsearch/data
     networks:
       - networkmysql
   
