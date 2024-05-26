@@ -1,4 +1,4 @@
-# version: '3'
+version: '3'
 services:
   mysql:
     image: mysql:8
@@ -58,11 +58,22 @@ services:
     container_name: elastic
     environment:
       - bootstrap.memory_lock=true
-      - "ES_JAVA_OPTS=-Xms512m -Xms512m"
-      - "discovery.type=single-node"
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
       - xpack.security.enabled=false
+      - discovery.type=single-node
+      - network.host=0.0.0.0
+      - http.port=9200
+    # environment:
+    #   - bootstrap.memory_lock=true
+    #   - "ES_JAVA_OPTS=-Xms512m -Xms512m"
+    #   - "discovery.type=single-node"
+    #   - xpack.security.enabled=false
     ports:
       - "9200:9200"
+    volumes:
+      - elastic_data:/usr/share/elasticsearch/data
+      - /home/somesh/iiitb files/SPE/SPEMajorProject/elasticsearch/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+      - /home/somesh/iiitb files/SPE/SPEMajorProject/elasticsearch:/var/log/elasticsearch
     # volumes:
     #   - elastic_data:/usr/share/elasticsearch/data
     networks:
@@ -102,6 +113,8 @@ services:
 networks:
   networkmysql:
 volumes:
+  elastic_data:
+    driver: local
   mysql_data:
 
 # version: '3'
