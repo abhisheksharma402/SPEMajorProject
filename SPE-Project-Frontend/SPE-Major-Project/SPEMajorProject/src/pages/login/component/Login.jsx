@@ -79,13 +79,13 @@ const Login = () => {
                // console.log(data);
                if (loginData.role === "customer") {
                     response = await axios.post(
-                         "http://localhost:9094/user/login",
+                         "http://localhost:9092/user/login",
                          localLoginData
                     );
                }
                else if (loginData.role === "agency") {
                     response = await axios.post(
-                         "http://localhost:9094/agency/login",
+                         "http://localhost:9092/agency/login",
                          localLoginData,
                          {
                               headers: {
@@ -98,7 +98,7 @@ const Login = () => {
                }
                else {
                     response = await axios.post(
-                         "http://localhost:9094/agent/login",
+                         "http://localhost:9092/agent/login",
                          localLoginData,
                          {
                               headers: {
@@ -174,13 +174,13 @@ const Login = () => {
                }
                if (data.role === "customer") {
                     response = await axios.post(
-                         "http://localhost:9094/user/register",
+                         "http://localhost:9092/user/register",
                          reqData
                     );
                }
                else if (data.role === "agency") {
                     response = await axios.post(
-                         "http://localhost:9094/agency/resgister",
+                         "http://localhost:9092/agency/resgister",
                          reqData
                     );
                }else{

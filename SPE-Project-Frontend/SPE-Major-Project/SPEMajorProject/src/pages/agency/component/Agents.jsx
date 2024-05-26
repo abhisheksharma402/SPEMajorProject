@@ -24,7 +24,7 @@ const Agents = () => {
      const handleSubmit = async (e) => {
           e.preventDefault();
           try {
-               const response = await axios.post('http://localhost:9094/agent/register', formData);
+               const response = await axios.post('http://localhost:9092/agent/register', formData);
                console.log('Package created successfully:', response.data);
                setFormData({
                     name: '',

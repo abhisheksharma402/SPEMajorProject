@@ -33,7 +33,7 @@ services:
     image: someshawasthi/travelguide-backend:latest
     container_name: mybackend
     ports:
-      - "9092:9094"
+      - "9092:9092"
     environment:
       - MYSQL_HOST=mysql
       - MYSQL_PORT=3306
