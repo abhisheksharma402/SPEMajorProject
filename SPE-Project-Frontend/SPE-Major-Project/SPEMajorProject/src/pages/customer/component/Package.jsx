@@ -20,7 +20,7 @@ import "../style/Package.css"
 
 
 const navitem = [
-     { img: home, name: "Home" },
+     { img: home, name: "Dashboard" },
      { img: gifticon, name: "Plan a Trip" },
      { img: iconthree, name: "Upcoming Trips" },
      { img: iconfour, name: "Past Trips" }
@@ -62,14 +62,14 @@ const Package = () => {
                                              className={`flex gap-3 items-center ${NavOpen ? "hover:bg-[#D8FFFF] px-1 rounded-sm mb-8" : ""
                                                   }`}
                                         >
-                                             <div className="">
-                                                  <Link to="/agency/packages" className="hover:bg-[#D8FFFF] transition-colors duration-300 w-[42px] h-[42px] flex items-center justify-center rounded-sm">
+                                             <div className="hover:bg-[#D8FFFF] transition-colors duration-300 w-[42px] h-[42px] flex items-center justify-center rounded-sm">
+                                                  <Link to={`/customer/${data.name.toLowerCase()}`}>
                                                        <img src={data.img} alt="logo" />
 
                                                   </Link>
                                              </div>
                                              <span
-                                                  className={` ${NavOpen ? "block delay-700 delayed-text" : "hidden"
+                                                  className={` ${NavOpen ? "block delay-1000 delayed-text" : "hidden"
                                                        }`}
                                              >
                                                   {data.name}

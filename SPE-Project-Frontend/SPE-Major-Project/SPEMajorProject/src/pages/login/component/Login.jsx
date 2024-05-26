@@ -12,11 +12,37 @@ const notyf = new Notyf({
      },
 });
 
+
+function isValidPassword(password) {
+     // Check length
+     if (password.length < 8) {
+          return false;
+     }
+
+     // Check for at least one number
+     if (!/\d/.test(password)) {
+          return false;
+     }
+
+     // Check for at least one special character
+     if (!/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/.test(password)) {
+          return false;
+     }
+
+     // Check for at least one uppercase letter
+     if (!/[A-Z]/.test(password)) {
+          return false;
+     }
+
+     return true;
+}
+
 const Login = () => {
      const navigate = useNavigate();
      // const dispatch = useDispatch();
      // const data = useSelector((state) => state.login.user);
-     const [data, setData] = useState({})
+     const [loginData, setLoginData] = useState({})
+     const [signupData, setSignupData] = useState({})
      const [containerClass, setContainerClass] = useState("sign-in");
      // const role = useSelector((state) => state.login.user.role);
      // const firstTimeLogin = useSelector((state) => state[role].firstTimeLogin)
@@ -24,22 +50,21 @@ const Login = () => {
      // 	(state) => state.login.user.isAuthenticated
      // );
      // const password = useSelector((state) => state.login.user.password);
-     // const [confirmPassword, setConfirmPassword] = useState("");
-     // const handleConfirmChange = (e) => {
-     // 	setConfirmPassword(e.target.value);
-     // };
+     const [confirmPassword, setConfirmPassword] = useState("");
+     const handleConfirmChange = (e) => {
+     	setConfirmPassword(e.target.value);
+     };
      // const errorMsg = useSelector((state) => state.login.errorMsg);
 
      const handleSignInChange = (e) => {
           const { name, value } = e.target;
-          setData((prevState) => ({
-               ...data,
+          setLoginData((prevState) => ({
+               ...loginData,
                [name]: value
           }));
-          // console.log(data);
-          // dispatch(loginActions.updateDetails({ name, value }));
+
           const { id } = e.target;
-          const buttons = ["customer", "agency", "agent"];
+          const buttons = ["login-customer", "login-agency", "login-agent"];
           if (id) {
                buttons.forEach((button) => {
                     document.getElementById(button).style.backgroundColor =
@@ -48,20 +73,20 @@ const Login = () => {
           }
      };
 
-     const handleLogin = async (loginData) => {
+     const handleLogin = async (localLoginData) => {
           try {
                let response;
-               console.log(data);
-               if (data.role === "customer") {
+               // console.log(data);
+               if (loginData.role === "customer") {
                     response = await axios.post(
                          "http://localhost:9094/user/login",
-                         loginData
+                         localLoginData
                     );
                }
-               else if (data.role === "agency") {
+               else if (loginData.role === "agency") {
                     response = await axios.post(
                          "http://localhost:9094/agency/login",
-                         loginData,
+                         localLoginData,
                          {
                               headers: {
                                    "Access-Control-Allow-Origin": "*",
@@ -74,7 +99,7 @@ const Login = () => {
                else {
                     response = await axios.post(
                          "http://localhost:9094/agent/login",
-                         loginData,
+                         localLoginData,
                          {
                               headers: {
                                    "Access-Control-Allow-Origin": "*",
@@ -92,8 +117,8 @@ const Login = () => {
                // });
           } catch (error) {
                notyf.error(
-				"Error while Signing Up"
-			);
+                    "Error while Signing Up"
+               );
                console.error("Error signing up:", error);
           }
      }
@@ -101,46 +126,105 @@ const Login = () => {
      const handleSignIn = async (e) => {
           e.preventDefault();
           console.log("hello from handle signin");
-          const loginData = {
-               email: `${data.email}`,
-               password: `${data.password}`
+          const handleLoginData = {
+               email: `${loginData.email}`,
+               password: `${loginData.password}`
           }
-          console.log("zxczxczxczxc");
-          if (data.role !== "") {
-               const loginSuccess = await handleLogin(loginData);
+
+          if (loginData.role !== "") {
+               const loginSuccess = await handleLogin(handleLoginData);
                if (loginSuccess) {
-                    navigate("/agency-dashboard", {
+                    navigate(`/${loginData.role}/dashboard`, {
                          state: { type: "login", data: loginData },
                     });
                }
           }
      };
 
-     // const handleSignUpChange = (e) => {
-     // 	const { name, value } = e.target;
-     // 	dispatch(loginActions.updateDetails({ name, value }));
-     // };
+     const handleSignUpChange = (e) => {
+          const { name, value } = e.target;
+          setSignupData((prevState) => ({
+               ...signupData,
+               [name]: value
+          }));
 
-     // const handlingSignUp = async (e) => {
-     // 	e.preventDefault();
-     // 	if (isValidPassword(password) === false) {
-     // 		notyf.error(
-     // 			"Password should contain a specaial character, a number and an uppercase letter and should be atleast 8 characters long"
-     // 		);
-     // 		return;
-     // 	}
-     // 	if (password !== confirmPassword) {
-     // 		notyf.error("Password and Confirm Password do not match");
-     // 		return;
-     // 	}
+          const { id } = e.target;
+          const buttons = ["signup-customer", "signup-agency"];
 
-     // 	const signInSucess = await dispatch(handleSignUp(data));
-     // 	if (signInSucess) {
-     // 		navigate("/verify-otp", {
-     // 			state: { type: "signup", data: data },
-     // 		});
-     // 	}
-     // };
+          if (id) {
+               buttons.forEach((button) => {
+                    console.log(button);
+                    document.getElementById(button).style.backgroundColor =
+                         button === id ? "#4FA786" : "#efefef";
+               });
+          }
+
+     };
+
+
+     const handleSignUp = async (data) => {
+          try {
+               let response;
+               console.log(data);
+               const reqData = {
+                    email: data.email,
+                    firstName: data.firstName,
+                    lastName: data.lastName,
+                    password: data.password
+               }
+               if (data.role === "customer") {
+                    response = await axios.post(
+                         "http://localhost:9094/user/register",
+                         reqData
+                    );
+               }
+               else if (data.role === "agency") {
+                    response = await axios.post(
+                         "http://localhost:9094/agency/resgister",
+                         reqData
+                    );
+               }else{
+                    notyf.error(
+                         "Invalid User Role"
+                    );
+                    return;
+               }
+               console.log("User Verification:", response);
+               return response.data;
+               
+          } catch (error) {
+               notyf.error(
+                    "Error while Signing Up"
+               );
+               console.error("Error signing up:", error);
+          }    
+     }
+
+
+     const handlingSignUp = async (e) => {
+          e.preventDefault();
+          if (isValidPassword(signupData.password) === false) {
+               notyf.error(
+                    "Password should contain a specaial character, a number and an uppercase letter and should be atleast 8 characters long"
+               );
+               return;
+          }
+          if (signupData.password !== confirmPassword) {
+               notyf.error("Password and Confirm Password do not match");
+               return;
+          }
+
+          const signInSucess = await handleSignUp(signupData);
+          console.log("success: ",signInSucess);
+          if (signInSucess) {
+               console.log("signup successful!");
+               let role = signupData.role;
+               if(signupData.role==="customer")role="user";
+               navigate("/activate-account", {
+                    state: { type: "signup", data: signInSucess, role:role },
+               });
+          }
+     };
 
      const handleForgotPassword = () => {
           navigate("/forgot-password");
@@ -182,14 +266,37 @@ const Login = () => {
                <div className="row">
                     {/* <!-- SIGN UP --> */}
                     <div className="col align-items-center flex-col sign-up">
-                         <div className="form-wrapper align-items-center">
+                         <div className="align-items-center">
                               <div className="form sign-up">
+                                   <div className="role-group">
+                                        <button
+                                             id="signup-customer"
+                                             className="roles"
+                                             name="role"
+                                             value="customer"
+                                             variant="contained"
+                                             onClick={handleSignUpChange}
+                                        // style={{ backgroundColor: "#4FA786" }}
+                                        >
+                                             Customer
+                                        </button>
+                                        <button
+                                             id="signup-agency"
+                                             className="roles"
+                                             name="role"
+                                             value="agency"
+                                             variant="contained"
+                                             onClick={handleSignUpChange}
+                                        >
+                                             Agency
+                                        </button>
+                                   </div>
                                    <div className="input-group">
                                         <i className="bx bxs-user"></i>
                                         <input
                                              name="firstName"
                                              type="text"
-                                             // onChange={handleSignUpChange}
+                                             onChange={handleSignUpChange}
                                              placeholder="First Name"
                                         />
                                    </div>
@@ -198,7 +305,7 @@ const Login = () => {
                                         <input
                                              name="lastName"
                                              type="text"
-                                             // onChange={handleSignUpChange}
+                                             onChange={handleSignUpChange}
                                              placeholder="Last Name"
                                         />
                                    </div>
@@ -207,7 +314,7 @@ const Login = () => {
                                         <input
                                              name="email"
                                              type="email"
-                                             // onChange={handleSignUpChange}
+                                             onChange={handleSignUpChange}
                                              placeholder="Email"
                                         />
                                    </div>
@@ -216,20 +323,20 @@ const Login = () => {
                                         <input
                                              name="password"
                                              type="password"
-                                             // onChange={handleSignUpChange}
+                                             onChange={handleSignUpChange}
                                              placeholder="Password"
                                         />
                                    </div>
                                    <div className="input-group">
                                         <i className="bx bxs-lock-alt"></i>
                                         <input
-                                             // onChange={handleConfirmChange}
+                                             onChange={handleConfirmChange}
                                              type="password"
                                              placeholder="Confirm password"
                                         />
                                    </div>
                                    <button
-                                   // onClick={handlingSignUp}
+                                   onClick={handlingSignUp}
                                    >Sign up</button>
                                    <p>
                                         <span>Already have an account?</span>
@@ -247,7 +354,7 @@ const Login = () => {
                               <div className="form sign-in">
                                    <div className="role-group">
                                         <button
-                                             id="customer"
+                                             id="login-customer"
                                              className="roles"
                                              name="role"
                                              value="customer"
@@ -258,7 +365,7 @@ const Login = () => {
                                              Customer
                                         </button>
                                         <button
-                                             id="agency"
+                                             id="login-agency"
                                              className="roles"
                                              name="role"
                                              value="agency"
@@ -268,7 +375,7 @@ const Login = () => {
                                              Agency
                                         </button>
                                         <button
-                                             id="agent"
+                                             id="login-agent"
                                              className="roles"
                                              name="role"
                                              value="agent"
@@ -315,7 +422,7 @@ const Login = () => {
                                    </p>
                               </div>
                          </div>
-                         <div className="form-wrapper"></div>
+                         {/* <div className="form-wrapper"></div> */}
                     </div>
                     {/* <!-- END SIGN IN --> */}
                </div>

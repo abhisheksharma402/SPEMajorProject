@@ -24,9 +24,5 @@ public class PaymentEntity {
 
     private String paymentMethod;
 
-    @OneToOne(mappedBy = "payment")
-    @JoinColumn(name = "booking_id")
-    private BookingEntity booking;
-
 
 }
