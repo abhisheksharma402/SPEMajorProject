@@ -28,9 +28,9 @@ describe('Login Component', () => {
           );
 
           // Check if the buttons for roles are rendered
-          expect(screen.getByText('Customer')).toBeInTheDocument();
-          expect(screen.getByText('Agency')).toBeInTheDocument();
-          expect(screen.getByText('Agent')).toBeInTheDocument();
+          expect(screen.getByTestId('customer-role-login')).toBeInTheDocument();
+          expect(screen.getByTestId('agency-role-login')).toBeInTheDocument();
+          expect(screen.getByTestId('agent-role-login')).toBeInTheDocument();
 
           // Check if the input fields are rendered
           // expect(screen.getByPlaceholderText('Username')).toBeInTheDocument();
@@ -47,9 +47,9 @@ describe('Login Component', () => {
                </BrowserRouter>
           );
 
-          const customerButton = screen.getByText('Customer');
-          const agencyButton = screen.getByText('Agency');
-          const agentButton = screen.getByText('Agent');
+          const customerButton = screen.getByTestId('customer-role-login');
+          const agencyButton = screen.getByTestId('agency-role-login');
+          const agentButton = screen.getByTestId('agent-role-login');
 
           // Click on the 'Agency' button
           fireEvent.click(agencyButton);
@@ -73,7 +73,7 @@ describe('Login Component', () => {
           );
 
           // Select role
-          fireEvent.click(screen.getByText('Agency'));
+          fireEvent.click(screen.getByTestId('agency-role-login'));
 
           // Enter email and password
           fireEvent.change(screen.getByTestId('signin-username'), { target: { name: 'email', value: 'sd@xyz.com' } });

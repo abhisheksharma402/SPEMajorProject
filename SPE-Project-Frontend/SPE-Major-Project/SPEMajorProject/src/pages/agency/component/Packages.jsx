@@ -45,7 +45,7 @@ const Packages = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('http://localhost:9094/agency/makePackage', formData);
+            const response = await axios.post('http://localhost:9092/agency/makePackage', formData);
             console.log('Package created successfully:', response.data);
             setFormData({
                 name: '',

@@ -69,7 +69,7 @@ const PlanTrip = () => {
           e.preventDefault();
 
           try {
-               const response = await axios.get(`http://localhost:9094/user/packages?destination=${destination}`);
+               const response = await axios.get(`http://localhost:9092/user/packages?destination=${destination}`);
                console.log(response);
                setPackages(response.data);
                setIsSetPackage(true);

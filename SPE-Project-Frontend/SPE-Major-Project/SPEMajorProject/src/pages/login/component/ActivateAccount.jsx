@@ -92,7 +92,7 @@ const ActivateAccount = () => {
                }
 
                response = await axios.post(
-                    `http://localhost:9094/${role}/activate-account`,
+                    `http://localhost:9092/${role}/activate-account`,
                     reqData
                );
 
